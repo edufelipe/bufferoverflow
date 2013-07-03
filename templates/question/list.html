@@ -13,7 +13,7 @@
           {{ question.date_created }}
         </small>
       </h4>
-      {{ question.content }}
+      {{ question.content|linebreaks }}
     </div>
   </div>
 {% endfor %}
