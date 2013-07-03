@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for question in questions %}
+  <div class="media well">
+    <a class="pull-left" href="#">
+      <span class="badge">{{ question.id }}</span>
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">
+        {{ question.title }}
+        <small class="pull-right">
+          {{ question.date_created }}
+        </small>
+      </h4>
+      {{ question.content }}
+    </div>
+  </div>
+{% endfor %}
+{% endblock content %}

@@ -15,7 +15,11 @@
 
 <div class="container">
   <div class="page-header">
+    {% block header %}
     <h1>Questions Asked <small>and answered</small></h1>
+    {% endblock header %}
   </div>
+  {% block content %}
+  {% endblock content %}
 </div>
 
