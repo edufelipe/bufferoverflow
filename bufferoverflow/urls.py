@@ -6,8 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'bufferoverflow.views.home', name='home'),
-    # url(r'^bufferoverflow/', include('bufferoverflow.foo.urls')),
+    url(r'^$', 'question.views.home', name='home'),
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
