@@ -9,6 +9,11 @@ class QuestionForm(ModelForm):
         model = Question
         fields = ['title', 'content', 'tags']
 
+    def __init__(self, *args, **kwargs):
+        super(QuestionForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'input-block-level'
+
     def save(self, *args, **kwargs):
         q = super(QuestionForm, self).save(*args, **kwargs)
         for name in self.cleaned_data['tags'].split(u','):
