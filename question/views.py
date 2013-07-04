@@ -1,8 +1,8 @@
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect
 
-from .models import Question
-from .forms import QuestionForm
+from .models import Question, Answer
+from .forms import QuestionForm, AnswerForm
 
 
 def home(request):
@@ -11,11 +11,23 @@ def home(request):
         'questions': questions,
     })
 
+
 def detail(request, question):
+    form = AnswerForm()
     question = Question.objects.get(pk=question)
+
+    if request.method == 'POST':
+        form = AnswerForm(request.POST,
+            instance=Answer(question=question))
+        if form.is_valid():
+            form.save()
+            form = AnswerForm()
+
     return TemplateResponse(request, 'question/detail.html', {
         'question': question,
+        'form': form,
     })
+
 
 def tagged(request, tag):
     questions = Question.objects.filter(tag__name=tag)

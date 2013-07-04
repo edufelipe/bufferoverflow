@@ -1,5 +1,5 @@
-from django.forms import ModelForm, CharField
-from .models import Question, Tag
+from django.forms import ModelForm, CharField, Textarea
+from .models import Question, Tag, Answer
 
 
 class QuestionForm(ModelForm):
@@ -20,3 +20,12 @@ class QuestionForm(ModelForm):
             tag = Tag(question=q, name=name.strip())
             tag.save()
         return q
+
+
+class AnswerForm(ModelForm):
+    content = CharField(widget=Textarea(
+        attrs={'class': 'input-block-level', 'rows': '5'}))
+    class Meta:
+        model = Answer
+        fields = ['content']
+

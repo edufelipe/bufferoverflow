@@ -21,4 +21,32 @@
     {% endfor %}
     </div>
   </div>
+{% if question.answer_set.exists %}
+  <div class="well">
+  {% for answer in question.answer_set.all %}
+    <div class="media"
+    {% if not forloop.last %}
+      style="border-bottom: 1px solid grey;"
+    {% endif %}>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <small class="pull-right">
+            {{ answer.date_created }}
+          </small>
+        </h4>
+        {{ answer.content|linebreaks }}
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+{% endif %}
+  <div class="well">
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.content }}
+      <button type="submit" class="btn btn-primary">
+        Answer!
+      </button>
+    </form>
+  </div>
 {% endblock content %}

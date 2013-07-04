@@ -21,3 +21,10 @@ class Tag(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question)
+    content = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+
