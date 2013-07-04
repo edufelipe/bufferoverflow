@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect
 
@@ -43,6 +44,8 @@ def ask(request):
         form = QuestionForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.add_message(request, messages.SUCCESS,
+                'Question Asked Successfully.')
             return redirect('home')
 
     return TemplateResponse(request, 'question/ask.html', {
