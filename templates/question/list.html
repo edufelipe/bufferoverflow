@@ -14,6 +14,12 @@
         </small>
       </h4>
       {{ question.content|linebreaks }}
+    {% for tag in question.tag_set.all %}
+      <a class='btn btn-mini btn-info'
+         href="{% url 'tagged' tag.name %}">
+        {{ tag.name }}
+      </a>
+    {% endfor %}
     </div>
   </div>
 {% endfor %}

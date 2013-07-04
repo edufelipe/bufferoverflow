@@ -12,6 +12,13 @@ def home(request):
     })
 
 
+def tagged(request, tag):
+    questions = Question.objects.filter(tag__name=tag)
+    return TemplateResponse(request, 'question/list.html', {
+        'questions': questions,
+    })
+
+
 def ask(request):
     form = QuestionForm()
 
