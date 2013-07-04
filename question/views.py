@@ -11,6 +11,11 @@ def home(request):
         'questions': questions,
     })
 
+def detail(request, question):
+    question = Question.objects.get(pk=question)
+    return TemplateResponse(request, 'question/detail.html', {
+        'question': question,
+    })
 
 def tagged(request, tag):
     questions = Question.objects.filter(tag__name=tag)
