@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'account',
     'question',
 )
 
@@ -158,3 +159,6 @@ LOGGING = {
         },
     }
 }
+
+# Define what is an user to us.
+AUTH_USER_MODEL = 'account.User'
