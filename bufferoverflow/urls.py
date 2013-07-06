@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'question.views.home', name='home'),
     url(r'^question/', include('question.urls')),
+    # Add social_auth URLs
+    url(r'', include('social_auth.urls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 )

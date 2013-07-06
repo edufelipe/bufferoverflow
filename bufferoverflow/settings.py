@@ -1,6 +1,9 @@
 # Django settings for bufferoverflow project.
 import os
 
+from django.core.exceptions import ImproperlyConfigured
+
+
 def root(*args):
     return os.path.join(os.path.dirname(__file__), '..', *args)
 
@@ -104,6 +107,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -127,6 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'social_auth',
     'account',
     'question',
 )
@@ -162,3 +167,41 @@ LOGGING = {
 
 # Define what is an user to us.
 AUTH_USER_MODEL = 'account.User'
+
+# Where the users log in
+LOGIN_URL = '/login/google-oauth2/'
+
+# Send users to home after a login
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/'
+
+# Determine who can tell us which that someone is an user.
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Determine the steps needed to authenticate an user.
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    # Create the user in our database but only if it doesn't exist.
+    'account.pipeline.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    # Grab the user's avatar to display in our site.
+    'account.pipeline.get_avatar',
+    'social_auth.backends.pipeline.user.update_user_details',
+)
+
+# You need to get the client ID and SECRET from Google.
+# Go to https://code.google.com/apis/console/ and create a project.
+# On that project, click on 'API Access' and create an OAuth 2 Client ID.
+# Choose a 'Web application' as the type, click 'more options' and enter
+# http://localhost:8000/complete/google-oauth2/ as the redirect URI.
+# This will work for testing and development, but you need to enter
+# the real domain for your project.
+GOOGLE_OAUTH2_CLIENT_ID = os.getenv('GOOGLE_OAUTH2_CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv('GOOGLE_OAUTH2_CLIENT_SECRET')
+
+if GOOGLE_OAUTH2_CLIENT_ID is GOOGLE_OAUTH2_CLIENT_SECRET is None:
+    raise ImproperlyConfigured('Please configure Google OAuth2 client and secret')
