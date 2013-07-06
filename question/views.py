@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.template.response import TemplateResponse
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
@@ -37,11 +38,13 @@ def tagged(request, tag):
     })
 
 
+@login_required
 def ask(request):
     form = QuestionForm()
 
     if request.method == 'POST':
-        form = QuestionForm(request.POST)
+        form = QuestionForm(request.POST,
+            instance=Question(user=request.user))
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS,

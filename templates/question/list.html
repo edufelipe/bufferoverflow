@@ -4,14 +4,24 @@
 {% for question in questions %}
   <div class="media well">
     <a class="pull-left" href="#">
-      <span class="badge">{{ question.answer_set.count }}</span>
+      <img class="media-object" src="{{ question.user.avatar.url }}"
+           style="margin: auto; width: 64px;">
+      <span class="badge" style="text-align: center;">
+    {% with question.answer_set.count as answers %}
+      {% if not answers %}
+        No answers
+      {% else %}
+        {{ answers }} answer{{ answers|pluralize }}
+      {% endif %}
+    {% endwith %}
+      </span>
     </a>
     <div class="media-body">
       <h4 class="media-heading">
-        <a href="{% url 'detail' question.id %}">{{ question.title }}</a>
         <small class="pull-right">
-          {{ question.date_created }}
+          {{ question.user.name }} asked on {{ question.date_created }}
         </small>
+        <a href="{% url 'detail' question.id %}">{{ question.title }}</a>
       </h4>
       {{ question.content|linebreaks }}
     {% for tag in question.tag_set.all %}
