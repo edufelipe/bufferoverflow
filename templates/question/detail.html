@@ -4,6 +4,10 @@
 <h1><small>Question: </small>{{ question.title }}</h1>
 {% endblock header %}
 
+{% block login_text %}
+Login to Answer!
+{% endblock login_text %}
+
 {% block content %}
   <div class="media well">
     <div class="media-body">
@@ -40,6 +44,7 @@
   {% endfor %}
   </div>
 {% endif %}
+{% if user.is_authenticated %}
   <div class="well">
     <form method="POST">
       {% csrf_token %}
@@ -49,4 +54,5 @@
       </button>
     </form>
   </div>
+{% endif %}
 {% endblock content %}

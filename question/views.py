@@ -18,9 +18,9 @@ def detail(request, question):
     form = AnswerForm()
     question = Question.objects.get(pk=question)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated():
         form = AnswerForm(request.POST,
-            instance=Answer(question=question))
+            instance=Answer(user=request.user, question=question))
         if form.is_valid():
             form.save()
             form = AnswerForm()

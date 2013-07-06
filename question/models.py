@@ -26,6 +26,7 @@ class Tag(models.Model):
 
 
 class Answer(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     question = models.ForeignKey(Question)
     content = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
